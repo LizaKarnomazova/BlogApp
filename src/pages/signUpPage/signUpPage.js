@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -11,17 +9,16 @@ import { useRegistryUserMutation } from '../../redux';
 import Class from './styles.module.scss';
 
 const SignUpPage = () => {
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit } = useForm({
     mode: 'onBlur',
   });
-  const [registryUser, { data }] = useRegistryUserMutation();
+  const [registryUser, { data, isError }] = useRegistryUserMutation();
   const [password, setPassword] = useState('');
   const [checkbox, setCheckbox] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       localStorage.setItem(
         'login',
@@ -30,7 +27,7 @@ const SignUpPage = () => {
           username: data.user.username,
         })
       );
-      navigate('/articles');
+      navigate('/');
     }
   }, [data]);
 
@@ -38,11 +35,9 @@ const SignUpPage = () => {
     if (checkbox) {
       delete e['repeat password'];
       await registryUser({ user: e });
-      reset();
     } else {
       setError('error');
     }
-    console.log(e);
   };
 
   return (
@@ -69,6 +64,7 @@ const SignUpPage = () => {
           lengthInterval={[6, 40]}
           setPassword={setPassword}
           confirmPassword={password}
+          patternValue={/[a-zA-Z0-9._-]/}
         />
         <TextField
           placeholder="Password"
@@ -86,12 +82,15 @@ const SignUpPage = () => {
         >
           I agree to the processing of my personal information
         </Checkbox>
-        <Button type="primary" block onClick={handleSubmit(registry)}>
+        {isError && (
+          <p className={Class.error}>This username or email adress has already been used</p>
+        )}
+        <Button type="primary" block onClick={handleSubmit(registry)} style={{ height: '40px' }}>
           Create
         </Button>
         <div className={Class.reminder}>
           Already have an account?{' '}
-          <Link to={'/sign-up'} className={Class.link}>
+          <Link to={'/sign-in'} className={Class.link}>
             Sign In
           </Link>
         </div>

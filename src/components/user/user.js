@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 
-import Class from './user.module.scss';
+import Class from './styles.module.scss';
 
 const User = ({ username, image, date = null, editProfilePage = false }) => (
   <section className={Class.article__user}>

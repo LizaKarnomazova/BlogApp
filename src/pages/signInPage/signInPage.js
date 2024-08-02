@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -10,14 +9,13 @@ import TextField from '../../components/input';
 import Class from './styles.module.scss';
 
 const SignInPage = () => {
-  const [loginUser, { data }] = useLoginUserMutation();
-  const { control, handleSubmit, reset } = useForm({
+  const [loginUser, { data, isError }] = useLoginUserMutation();
+  const { control, handleSubmit } = useForm({
     mode: 'onBlur',
   });
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       localStorage.setItem(
         'login',
@@ -33,8 +31,6 @@ const SignInPage = () => {
 
   const login = async (e) => {
     await loginUser({ user: e });
-    reset();
-    console.log(e);
   };
 
   return (
@@ -48,7 +44,8 @@ const SignInPage = () => {
           patternValue={/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/}
         />
         <TextField placeholder="Password" name="password" control={control} />
-        <Button type="primary" block onClick={handleSubmit(login)}>
+        {isError && <p className={Class.error}>Incorrect email adress or password</p>}
+        <Button type="primary" block onClick={handleSubmit(login)} style={{ height: '40px' }}>
           Login
         </Button>
         <div className={Class.reminder}>
@@ -56,7 +53,6 @@ const SignInPage = () => {
           <Link to={'/sign-up'} className={Class.link}>
             Sign Up
           </Link>
-          .
         </div>
       </form>
     </div>

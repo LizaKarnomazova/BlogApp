@@ -1,29 +1,41 @@
-import React from 'react';
-import { Outlet, Link, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import User from '../user';
 
-import Class from './layout.module.scss';
+import Class from './styles.module.scss';
 
 const Layout = () => {
   const user = JSON.parse(localStorage.getItem('login'));
+  const navigator = useNavigate();
+  const [isActive, setIsAtive] = useState(true);
 
   return (
     <div className={Class.app}>
       <header className={Class.header}>
-        <span>Realworld Blog</span>
+        <Link to={'/'} style={{ color: 'black' }}>
+          Realworld Blog
+        </Link>
         <div className={Class.buttons}>
           {user ? (
             <>
-              <Link to={'/sign-up'} className={`${Class.button} ${Class.active}`}>
+              <Link
+                to={'/new-article'}
+                className={isActive ? `${Class.button} ${Class.active}` : Class.button}
+              >
                 Create article
               </Link>
-              <User username={user && user.username} image={user && user.image} editProfilePage={true} />
+              <User
+                username={user && user.username}
+                image={user && user.image}
+                editProfilePage={true}
+              />
               <Link
                 to={'/articles'}
                 className={Class.button}
                 onClick={() => {
                   localStorage.removeItem('login');
+                  navigator('/');
                 }}
               >
                 Log Out
@@ -31,19 +43,24 @@ const Layout = () => {
             </>
           ) : (
             <>
-              <NavLink
+              <Link
                 to={'/sign-in'}
-                className={({ isActive }) => (isActive ? `${Class.button} ${Class.active}` : Class.button)}
-                end
+                className={isActive ? `${Class.button} ${Class.active}` : Class.button}
+                onClick={() => {
+                  if (!isActive) setIsAtive(!isActive);
+                }}
               >
                 Sign In
-              </NavLink>
-              <NavLink
+              </Link>
+              <Link
                 to={'/sign-up'}
-                className={({ isActive }) => (isActive ? `${Class.button} ${Class.active}` : Class.button)}
+                className={isActive ? Class.button : `${Class.button} ${Class.active}`}
+                onClick={() => {
+                  if (isActive) setIsAtive(!isActive);
+                }}
               >
                 Sign Up
-              </NavLink>
+              </Link>
             </>
           )}
         </div>

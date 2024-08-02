@@ -1,23 +1,18 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from 'antd';
 
 import { useGetArticlesQuery } from '../../redux';
 import ArticleDescription from '../../components/articleDescription/articleDescription';
 import User from '../../components/user';
+import ErrorIndicator from '../../components/error-indicator/error-indicator';
 
 import Class from './styles.module.scss';
 
 const ListPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const pageQuery = searchParams.get('page');
-  const { data = [], isLoading } = useGetArticlesQuery(pageQuery || 1);
-
-  useEffect(() => {
-    console.log(pageQuery, data);
-  }, [data]);
+  const { data = [], isLoading, isError } = useGetArticlesQuery(pageQuery || 1);
 
   function addList() {
     let articles = [];
@@ -41,6 +36,10 @@ const ListPage = () => {
       }
     }
     return articles;
+  }
+
+  if (isError) {
+    return <ErrorIndicator />;
   }
 
   return (

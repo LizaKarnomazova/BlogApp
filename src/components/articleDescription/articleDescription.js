@@ -2,10 +2,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Like from '../like';
+
 import Class from './styles.module.scss';
 
 const ArticleDescription = (props) => {
-  const { title, favoritesCount, description, tagList, slug, articlePage = false } = props;
+  const {
+    title,
+    favoritesCount,
+    description,
+    tagList,
+    slug,
+    favorited,
+    articlePage = false,
+  } = props;
 
   const tags = tagList.map((tag) => {
     if (tag) {
@@ -40,7 +50,7 @@ const ArticleDescription = (props) => {
             {sliceText(title, 60)}
           </Link>
         )}
-        <span className={Class.likes}>{favoritesCount}</span>
+        <Like favoritesCount={favoritesCount} slug={slug} favorited={favorited} />
       </div>
       <ul className={Class.tags}>{tags}</ul>
       <p className={Class.description}>{articlePage ? description : sliceText(description, 150)}</p>

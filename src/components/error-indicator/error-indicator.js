@@ -7,7 +7,13 @@ const ErrorIndicator = () => {
     maxWidth: '470px',
   };
   return (
-    <Alert message="Error" description="Something went wrong!" type="error" style={className} showIcon />
+    <Alert
+      message="Error"
+      description="Something went wrong!"
+      type="error"
+      style={className}
+      showIcon
+    />
   );
 };
 export default ErrorIndicator;

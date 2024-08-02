@@ -23,7 +23,7 @@
     "react/jsx-uses-react": "error",   
     "react/jsx-uses-vars": "error",
     "indent": ["error", 2],
-    "max-len": ["error", { "code": 110 }],
+    "max-len": ["error", { "code": 100 }],
     "no-param-reassign": ["error", { "props": false }],
     "linebreak-style": [0, "unix"],
     "react/react-in-jsx-scope": "off",

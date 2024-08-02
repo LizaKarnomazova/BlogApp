@@ -5,6 +5,12 @@
     height: 100vh;
 }
 
+.main {
+    padding: 2.5vh;
+    min-height: 85vh;
+    background: #EBEEF3;
+}
+
 .header {
     margin: 0 auto;
     padding: 2vh 20px;
@@ -36,10 +42,4 @@
     color: #52C41A;
     outline: 1px solid #52C41A;
     border-radius: 5px;
-}
-
-.main {
-    padding: 2.5vh;
-    min-height: 85vh;
-    background: #EBEEF3;
 }
