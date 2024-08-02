@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect } from 'react';
 import Markdown from 'react-markdown';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Button } from 'antd';
@@ -21,21 +22,25 @@ const ArticlePage = () => {
         <ArticleDescription {...props} articlePage={true} className={Class.info} />
         <div>
           <User username={username} image={image} date={createdAt} />
-          {username === JSON.parse(localStorage.getItem('login')).username && (
-            <div className={Class.buttons}>
-              <Button
-                danger
-                onClick={async () => {
-                  await deleteArticle(props.slug);
-                  navigate('/');
-                }}
-              >
-                Delete
-              </Button>
-              <Link to={'edit'} state={props} className={Class.button}>
-                Edit
-              </Link>
-            </div>
+          {localStorage.getItem('login') ? (
+            username === JSON.parse(localStorage.getItem('login')).username && (
+              <div className={Class.buttons}>
+                <Button
+                  danger
+                  onClick={async () => {
+                    await deleteArticle(props.slug);
+                    navigate('/');
+                  }}
+                >
+                  Delete
+                </Button>
+                <Link to={'edit'} state={props} className={Class.button}>
+                  Edit
+                </Link>
+              </div>
+            )
+          ) : (
+            <></>
           )}
         </div>
       </div>
