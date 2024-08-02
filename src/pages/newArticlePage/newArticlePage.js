@@ -42,7 +42,7 @@ const NewArticlePage = () => {
 
   const tagElements = tagsData.map((item) => (
     <li key={item.name} className={Class.tag}>
-      <TextField {...item} control={control} />
+      <TextField {...item} control={control} lengthInterval={[0, 50]} />
       <Button danger onClick={() => deleteTag(item.name)} style={{ height: '40px' }}>
         Delete
       </Button>
@@ -81,7 +81,11 @@ const NewArticlePage = () => {
             Add tag
           </Button>
         </div>
-        <Button type="primary" onClick={handleSubmit(submit)} style={{ height: '40px' }}>
+        <Button
+          type="primary"
+          onClick={handleSubmit(submit)}
+          style={{ height: '40px', width: '350px' }}
+        >
           Send
         </Button>
       </form>

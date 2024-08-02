@@ -11,8 +11,8 @@ function TextField({
   control,
   name,
   placeholder,
-  lengthInterval = [3, 150],
-  patternValue = /[а-яА-Яa-zA-Z0-9._-]/,
+  lengthInterval = [0, 1000],
+  patternValue = /[а-яА-Яa-zA-Z0-9._,?-]/,
   setPassword,
   confirmPassword,
 }) {
@@ -49,6 +49,8 @@ function TextField({
     placeholder,
   };
 
+  const errorMsg = <>{error && <p className={Class.errorText}>{error.message}</p>}</>;
+
   function currentInput() {
     if (name === 'password' || name === 'repeat password') {
       return (
@@ -73,12 +75,15 @@ function TextField({
       );
     }
     if (name.includes('tag')) {
-      return <Input {...attributes} className={`${Class.input} ${Class.tag}`} />;
+      return (
+        <div className={Class.tag}>
+          <Input {...attributes} className={`${Class.input}`} status={error && 'error'} />
+          {errorMsg}
+        </div>
+      );
     }
     return <Input {...attributes} status={error && 'error'} className={Class.input} />;
   }
-
-  const errorMsg = <>{error && <p className={Class.errorText}>{error.message}</p>}</>;
 
   function currentLabel(inputName) {
     if (inputName === 'repeat password') {
