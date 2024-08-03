@@ -6,6 +6,8 @@ import { Button } from 'antd';
 
 import User from '../../components/user';
 import ArticleDescription from '../../components/articleDescription';
+import LoadingSpin from '../../components/loadingSpin';
+import ErrorIndicator from '../../components/errorIndicator/errorIndicator';
 import { useDeleteArticleMutation, useGetArticleQuery } from '../../redux';
 
 import Class from './styles.module.scss';
@@ -15,17 +17,19 @@ const ArticlePage = () => {
   const [deleteArticle] = useDeleteArticleMutation();
   const navigate = useNavigate();
 
-  useEffect(() => {}, [data]);
-
   if (isLoading) {
     return (
       <div className={`${Class.article} ${Class.articleLoading}`}>
-        <h1>Loading...</h1>
+        <LoadingSpin />
       </div>
     );
   }
 
   const { author, createdAt, ...props } = data.article;
+
+  if (isError) {
+    return <ErrorIndicator />;
+  }
 
   return (
     <div className={Class.article}>
