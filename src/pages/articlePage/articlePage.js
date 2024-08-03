@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
+import React from 'react';
 import Markdown from 'react-markdown';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Button } from 'antd';

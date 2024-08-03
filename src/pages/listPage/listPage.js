@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from 'antd';
@@ -16,7 +15,7 @@ const ListPage = () => {
   const pageQuery = searchParams.get('page');
   const { data = [], isLoading, isError } = useGetArticlesQuery(pageQuery || 1);
 
-  const articleS = data.articles?.map((item) => {
+  const articles = data.articles?.map((item) => {
     const { username, image } = item.author;
     return (
       <li key={item.slug} className={Class.article}>
@@ -40,7 +39,7 @@ const ListPage = () => {
 
   return (
     <>
-      <ul className={Class.articlesList}>{articleS}</ul>
+      <ul className={Class.articlesList}>{articles}</ul>
       <Pagination
         className={Class.center}
         defaultCurrent={pageQuery}

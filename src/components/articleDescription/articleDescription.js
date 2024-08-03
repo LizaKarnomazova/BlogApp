@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -28,32 +27,26 @@ const ArticleDescription = (props) => {
     return <></>;
   });
 
-  function sliceText(text, maxSize) {
-    let newText;
-    if (text && text.length > maxSize) {
-      newText = text.slice(0, maxSize);
-      while (newText[newText.length - 1] !== ' ') {
-        newText = newText.slice(0, -1);
-      }
-      return `${newText} ...`;
-    }
-    return text;
-  }
-
   return (
     <article className={articlePage ? Class.infoArticlePage : Class.info}>
-      <div>
+      <div className={Class.title}>
         {articlePage ? (
-          <span className={Class.title}>{title}</span>
+          title
         ) : (
           <Link to={`/articles/${slug}`} state={props} className={Class.title}>
-            {sliceText(title, 60)}
+            {title.length > 60 ? `${title.slice(0, 55)}...` : title}
           </Link>
         )}
         <Like favoritesCount={favoritesCount} slug={slug} favorited={favorited} />
       </div>
       <ul className={Class.tags}>{tags}</ul>
-      <p className={Class.description}>{articlePage ? description : sliceText(description, 150)}</p>
+      {articlePage ? (
+        <p className={Class.description}>{description}</p>
+      ) : (
+        <p className={Class.description}>
+          {description.length > 150 ? `${description.slice(0, 145)}...` : description}
+        </p>
+      )}
     </article>
   );
 };

@@ -32,6 +32,8 @@
 }
 
 .title {
+    max-width: 725px;
+    word-wrap:break-word;
     text-decoration: none;
     font-size: 20px;
     font-weight: bold;
@@ -54,5 +56,7 @@
 }
 
 .description {
-    color: rgb(0, 0, 0, 0.5)
+    max-width: 725px;
+    word-wrap:break-word;
+    color: rgb(0, 0, 0, 0.5);
 }
