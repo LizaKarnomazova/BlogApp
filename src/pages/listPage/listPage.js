@@ -16,24 +16,24 @@ const ListPage = () => {
 
   function addList() {
     let articles = [];
-    while (articles.length < 5) {
-      if (isLoading) {
+    if (isLoading) {
+      while (articles.length < 5) {
         articles.push(
           <li key={articles.length} className={Class.articleLoading}>
             <h1>Loading...</h1>
           </li>
         );
-      } else {
-        articles = data.articles.map((item) => {
-          const { username, image } = item.author;
-          return (
-            <li key={item.slug} className={Class.article}>
-              <ArticleDescription {...item} />
-              <User username={username} image={image} date={item.createdAt} />
-            </li>
-          );
-        });
       }
+    } else {
+      articles = data.articles.map((item) => {
+        const { username, image } = item.author;
+        return (
+          <li key={item.slug} className={Class.article}>
+            <ArticleDescription {...item} />
+            <User username={username} image={image} date={item.createdAt} />
+          </li>
+        );
+      });
     }
     return articles;
   }

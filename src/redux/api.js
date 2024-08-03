@@ -7,7 +7,7 @@ export const api = createApi({
   endpoints: (build) => ({
     getArticles: build.query({
       query: (page) => ({
-        url: `articles?offset=${5 * (page - 1)}&limit=5`,
+        url: `articles?limit=5&offset=${5 * (page - 1)}`,
         method: 'GET',
         headers: {
           Authorization: localStorage.getItem('login')
