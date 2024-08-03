@@ -6,24 +6,35 @@ import { Button } from 'antd';
 
 import User from '../../components/user';
 import ArticleDescription from '../../components/articleDescription';
-import { useDeleteArticleMutation } from '../../redux';
+import { useDeleteArticleMutation, useGetArticleQuery } from '../../redux';
 
 import Class from './styles.module.scss';
 
 const ArticlePage = () => {
-  const { author, createdAt, ...props } = useLocation().state;
-  const { username, image } = author;
+  const { data = {}, isLoading, isError } = useGetArticleQuery(useLocation().pathname);
   const [deleteArticle] = useDeleteArticleMutation();
   const navigate = useNavigate();
+
+  useEffect(() => {}, [data]);
+
+  if (isLoading) {
+    return (
+      <div className={`${Class.article} ${Class.articleLoading}`}>
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
+  const { author, createdAt, ...props } = data.article;
 
   return (
     <div className={Class.article}>
       <div className={Class.flex}>
         <ArticleDescription {...props} articlePage={true} className={Class.info} />
         <div>
-          <User username={username} image={image} date={createdAt} />
+          <User username={author.username} image={author.image} date={createdAt} />
           {localStorage.getItem('login') ? (
-            username === JSON.parse(localStorage.getItem('login')).username && (
+            author.username === JSON.parse(localStorage.getItem('login')).username && (
               <div className={Class.buttons}>
                 <Button
                   danger

@@ -25,6 +25,7 @@ const SignUpPage = () => {
         JSON.stringify({
           token: data.user.token,
           username: data.user.username,
+          email: data.user.email,
         })
       );
       navigate('/');

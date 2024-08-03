@@ -20,6 +20,24 @@ export const api = createApi({
           ? [...result.articles.map(({ slug }) => ({ type: 'Articles', slug })), 'Articles']
           : ['Articles'],
     }),
+    getArticle: build.query({
+      query: (path) => ({
+        url: path,
+        method: 'GET',
+        headers: {
+          Authorization: localStorage.getItem('login')
+            ? `Token ${JSON.parse(localStorage.getItem('login')).token}`
+            : null,
+        },
+      }),
+      providesTags: (result) => {
+        const { slug } = result.article;
+        if (result) {
+          return [{ type: 'Article', slug }, 'Article'];
+        }
+        return ['Article'];
+      },
+    }),
     registryUser: build.mutation({
       query: (body) => ({
         url: 'users',
@@ -84,7 +102,7 @@ export const api = createApi({
           Authorization: `Token ${JSON.parse(localStorage.getItem('login')).token}`,
         },
       }),
-      invalidatesTags: ['Articles'],
+      invalidatesTags: ['Articles', 'Article'],
     }),
     unfavoriteArticle: build.mutation({
       query: (slug) => ({
@@ -94,13 +112,14 @@ export const api = createApi({
           Authorization: `Token ${JSON.parse(localStorage.getItem('login')).token}`,
         },
       }),
-      invalidatesTags: ['Articles'],
+      invalidatesTags: ['Articles', 'Article'],
     }),
   }),
 });
 
 export const {
   useGetArticlesQuery,
+  useGetArticleQuery,
   useRegistryUserMutation,
   useLoginUserMutation,
   useUpdateUserMutation,

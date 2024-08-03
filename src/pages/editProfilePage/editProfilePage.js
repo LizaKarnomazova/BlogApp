@@ -9,9 +9,11 @@ import TextField from '../../components/input';
 import Class from './styles.module.scss';
 
 const EditProfilePage = () => {
+  const user = JSON.parse(localStorage.getItem('login'));
   const [updateUser, { data, isError }] = useUpdateUserMutation();
   const { control, handleSubmit } = useForm({
     mode: 'onBlur',
+    defaultValues: { username: user.username, image: user.image, password: '', email: user.email },
   });
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ const EditProfilePage = () => {
           token: data.user.token,
           username: data.user.username,
           image: data.user.image,
+          email: data.user.email,
         })
       );
       navigate('/articles');
